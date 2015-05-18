@@ -1,0 +1,100 @@
+# Define Aloha presets to reuse throughout the document
+blah: &alohaPlain
+  placeholder: 'Enter title here'
+  format:
+    b: false
+    i: false
+    u: false
+    sub: false
+    sup: false
+    p: false
+    h1: false
+    h2: false
+    h3: false
+    pre: false
+    removeFormat: false
+  table: {  }
+  list: {  }
+  link:
+    a: false
+  alignment: {  }
+
+'Sfi.Pub:Listable':
+  abstract: TRUE
+
+'Sfi.Pub:AbstractPub':
+  abstract: TRUE
+  superTypes:
+    - 'TYPO3.Neos:Document'
+    - 'Sfi.Pub:Listable'
+  childNodes:
+    main:
+      type: 'TYPO3.Neos:ContentCollection'
+    coverCollection:
+      type: 'TYPO3.Neos:ContentCollection'
+    assets:
+      type: 'TYPO3.Neos:ContentCollection'
+  ui:
+    label: 'Pubs'
+    icon: icon-file-text
+    group: pub
+    inspector:
+      groups:
+        news:
+          label: 'Pubs'
+  properties:
+    title:
+      ui:
+        inlineEditable: true
+        aloha: 
+          <<: *alohaPlain
+          placeholder: 'Заголовок публикации'
+    teaser:
+      type: string
+      ui:
+        label: 'Teaser text'
+        inlineEditable: true
+        inspector:
+          group: null
+        aloha:
+          <<: *alohaRich
+          placeholder: 'Тизер'
+    lead:
+      type: string
+      ui:
+        label: 'Lead text'
+        inlineEditable: true
+        inspector:
+          group: null
+        aloha:
+          <<: *alohaRich
+          placeholder: 'Лид'
+    date:
+      type: DateTime
+      defaultValue: 'now'
+      ui:
+        label: Date
+        reloadIfChanged: true
+        inspector:
+          group: news
+          editorOptions:
+            format: 'd-m-Y H:i'
+      validation:
+        'TYPO3.Neos/Validation/DateTimeValidator': []
+    hasPhoto:
+      type: boolean
+      ui:
+        label: 'Has photo?'
+        reloadIfChanged: FALSE
+        inspector:
+          group: 'news'
+    tags:
+      type: references
+      ui:
+        label: 'Tags'
+        reloadIfChanged: true
+        inspector:
+          group: news
+          editorOptions:
+            nodeTypes:
+              - 'TYPO3.Neos:Document'
